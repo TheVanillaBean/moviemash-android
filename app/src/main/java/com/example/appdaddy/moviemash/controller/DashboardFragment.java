@@ -3,24 +3,37 @@ package com.example.appdaddy.moviemash.controller;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 
+import com.example.appdaddy.moviemash.DataService.AuthService;
+import com.example.appdaddy.moviemash.Model.User;
+import com.example.appdaddy.moviemash.POJO.UserCastEvent;
 import com.example.appdaddy.moviemash.R;
+import com.example.appdaddy.moviemash.util.Dialog;
+import com.example.appdaddy.moviemash.widgets.CustomRecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class DashboardFragment extends Fragment {
-//    private BaseFragment.OnFragmentInteractionListener mListener;
-//
-//    @BindView(R.id.recycler_view) CustomRecyclerView mRecyclerView;
-//    @BindView(R.id.empty_list) TextView mEmptyList;
-//
-//    private FirebaseUser mCurrentUser;
-//
+
+    @BindView(R.id.recycler_view) CustomRecyclerView mRecyclerView;
+    @BindView(R.id.empty_list) TextView mEmptyList;
+
+    private User mCurrentUser;
 //    private FirebaseRecyclerAdapter mAdapter;
 
     public DashboardFragment() {
@@ -42,6 +55,14 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        EventBus.getDefault().register(this);
+
+        if(AuthService.getInstance().getCurrentUser() != null){
+            User.castUser(AuthService.getInstance().getCurrentUser().getUid());
+        }else{
+            Dialog.showDialog(getActivity(), "Authentication Error", "Could not find user...", "Okay");
+        }
+
 
 //        mCurrentUser = AuthService.getInstance().getCurrentUser();
 //
@@ -51,6 +72,38 @@ public class DashboardFragment extends Fragment {
 //            Toast.makeText(getActivity(), "Error retrieving current user...", Toast.LENGTH_LONG).show();
 //        }
       }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserCastCallBack(UserCastEvent event) {
+        if (event.getError() == null){
+            mCurrentUser = event.getUser();
+//            setupRecyclerView();
+        }else{
+            Dialog.showDialog(getActivity(), "Authentication Error", event.getError(), "Okay");
+        }
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @OnClick(R.id.new_game_btn)
+    public void onNewGameBtnPressed() {
+        showFindUserDialog();
+    }
+
+    public void showFindUserDialog() {
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FindUserDialog findUserFragment = FindUserDialog.newInstance();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.add(android.R.id.content, findUserFragment)
+                .addToBackStack(null).commit();
+
+    }
+
 //
 //    @Subscribe(threadMode = ThreadMode.MAIN)
 //    public void onFollowersRetrieved(RetrieveAllFollowersEvent event) {

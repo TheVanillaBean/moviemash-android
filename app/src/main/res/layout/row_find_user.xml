@@ -29,7 +29,7 @@
         android:layout_weight="4">
 
         <me.grantland.widget.AutofitTextView
-            android:id="@+id/opponent_name_label"
+            android:id="@+id/name_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24sp"
@@ -40,23 +40,23 @@
             android:singleLine="true"/>
 
         <TextView
-            android:id="@+id/status_label"
+            android:id="@+id/all_time_rank_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="Waiting For You"
+            android:text="All Time Rank: 55"
             android:textColor="@android:color/black"/>
 
     </LinearLayout>
 
     <me.grantland.widget.AutofitTextView
-        android:id="@+id/date_ceated_label"
+        android:id="@+id/status_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:layout_marginEnd="8dp"
-        android:text="10/21/16"
-        android:textColor="@android:color/black"
+        android:text="Online"
+        android:textColor="@android:color/holo_green_dark"
         android:layout_gravity="top"
         autofit:minTextSize="10sp"
         android:singleLine="true"

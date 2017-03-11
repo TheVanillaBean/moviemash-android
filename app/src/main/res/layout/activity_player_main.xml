@@ -5,7 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_customer_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
     <include
         android:id="@+id/toolbar"
@@ -15,7 +16,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottomBar"/>
+        android:layout_below="@id/toolbar"/>
 
     <com.roughike.bottombar.BottomBar
         android:id="@+id/bottomBar"

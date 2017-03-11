@@ -26,13 +26,13 @@
                     android:layout_height="100dp"
                     android:src="@mipmap/ic_launcher"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="40dp"
-                    android:background="@drawable/business_logo_border"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/user_logo_border"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="8dp">
 
                     <ImageView
-                        android:id="@+id/customer_image"
+                        android:id="@+id/user_image"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:padding="4dp"/>
@@ -63,7 +63,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="8dp"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="20dp"
                     android:orientation="vertical">
 
                     <LinearLayout

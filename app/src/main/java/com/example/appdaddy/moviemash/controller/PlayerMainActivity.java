@@ -30,8 +30,8 @@ public class PlayerMainActivity extends AppCompatActivity implements FragNavCont
     private BottomBar mBottomBar;
     private FragNavController mNavController;
 
-    private final int INDEX_PROFILE = FragNavController.TAB1;
-    private final int INDEX_DASHBOARD = FragNavController.TAB2;
+    private final int INDEX_DASHBOARD = FragNavController.TAB1;
+    private final int INDEX_PROFILE = FragNavController.TAB2;
     private final int INDEX_LEADERBOARD = FragNavController.TAB3;
 
     private OnListenerCallBacks mListener;
@@ -57,11 +57,11 @@ public class PlayerMainActivity extends AppCompatActivity implements FragNavCont
             @Override
             public void onTabSelected(@IdRes int tabId) {
                 switch (tabId) {
-                    case R.id.bb_menu_dashboard:
-                        mNavController.switchTab(INDEX_DASHBOARD);
-                        break;
                     case R.id.bb_menu_profile:
                         mNavController.switchTab(INDEX_PROFILE);
+                        break;
+                    case R.id.bb_menu_dashboard:
+                        mNavController.switchTab(INDEX_DASHBOARD);
                         break;
                     case R.id.bb_menu_leaderboard:
                         mNavController.switchTab(INDEX_LEADERBOARD);
@@ -104,10 +104,10 @@ public class PlayerMainActivity extends AppCompatActivity implements FragNavCont
     @Override
     public Fragment getRootFragment(int index) {
         switch (index) {
-            case INDEX_DASHBOARD:
-                return DashboardFragment.newInstance();
             case INDEX_PROFILE:
                 return ProfileFragment.newInstance();
+            case INDEX_DASHBOARD:
+                return DashboardFragment.newInstance();
             case INDEX_LEADERBOARD:
                 return LeaderboardFragment.newInstance();
 
