@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "117351382186",
+    "firebase_url": "https://moviemash-3e6ea.firebaseio.com",
+    "project_id": "moviemash-3e6ea",
+    "storage_bucket": "moviemash-3e6ea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117351382186:android:416b2094b87c091d",
+        "android_client_info": {
+          "package_name": "com.example.appdaddy.moviemash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "117351382186-ti0oi9f98l0bm4302j94mnk9nn749pta.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.appdaddy.moviemash",
+            "certificate_hash": "6aa4a14adb7905382d54baedb8713c713a32e636"
+          }
+        },
+        {
+          "client_id": "117351382186-dlbd1d41q811ku4sb9oqo82sotmf78ku.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFr0PGPvKOlng0NNNoP_JIg3soLjrv2VI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "117351382186-dlbd1d41q811ku4sb9oqo82sotmf78ku.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
