@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+
+    <Button
+        android:id="@+id/new_game_btn"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textColor="@color/plain_text_selector"
+        android:text="Start New Game"
+        android:layout_marginEnd="48dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="40dp"/>
+
+
+    <com.example.appdaddy.moviemash.widgets.CustomRecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/new_game_btn"
+        android:layout_margin="16dp"/>
+
+
+    <TextView
+        android:id="@+id/empty_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="32dp"
+        android:textColor="@color/colorGreyDark"
+        android:gravity="center"
+        android:text="No Profile"
+        android:layout_below="@id/new_game_btn"/>
+
+
+
+</RelativeLayout>
