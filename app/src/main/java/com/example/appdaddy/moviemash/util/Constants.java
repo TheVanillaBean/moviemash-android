@@ -9,7 +9,6 @@ public class Constants {
     public static final int ERROR_DIALOG_REQUEST = 9001;
 
     //putExtra
-    public static final String EXTRA_PHONE_NUMBER = "phoneNumberExtra";
     public static final String EXTRA_USER_ID = "userIDExtra";
     public static final String EXTRA_USER_PARCEL = "userParcel";
     public static final String EXTRA_GAME_PARCEL = "gameParcel";
@@ -38,6 +37,7 @@ public class Constants {
     public static final String USER_ID = "userID";
     public static final String USER_NAME = "userName";
     public static final String SCORE = "userScore";
+    public static final String TIMESTAMP = "timestamp";
 
     //CHILD NODES
     public static final String FIR_CHILD_USERS = "user";

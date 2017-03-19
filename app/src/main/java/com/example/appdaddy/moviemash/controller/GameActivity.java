@@ -59,6 +59,8 @@ public class GameActivity extends AppCompatActivity {
     @BindView(R.id.movie_year) TextView mMovieYearLabel;
     @BindView(R.id.movie_actors) TextView mMovieActorsLabel;
     @BindView(R.id.movie_desc) TextView mMovieDescLabel;
+    @BindView(R.id.movie_count_label) TextView mMovieCountLabel;
+    @BindView(R.id.score_label) TextView mScoreLabel;
     @BindView(R.id.rating_field) EditText mRatingField;
 
     private Game mGame;
@@ -129,8 +131,6 @@ public class GameActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRatingReceivedEvent(RatingReceivedEvent event) {
         if (event.getError() == null){
-            L.m("calleddsds");
-
             int actualRating = event.getRating();
             int userRating = Integer.parseInt(mCurrentRating);
             int difference = Math.abs(actualRating - userRating);
@@ -139,7 +139,7 @@ public class GameActivity extends AppCompatActivity {
 
             mGame.setUserScore(newScore + "");
 
-            Toast.makeText(this, "You were off by " + difference + "\n Actual Rating: " + actualRating, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "You were off by " + difference + "\n Actual Rating: " + actualRating, Toast.LENGTH_SHORT).show();
             FBDataService.getInstance().updateGame(mGame);
 
         }else{
@@ -200,6 +200,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void loadMovie(){
+        mMovieCountLabel.setText(String.format("Movie %d out of 10", mMovieCounter + 1));
+        mScoreLabel.setText(String.format("Score: %s", mGame.getUserScore()));
         String movieID = mGame.getMovieList().get(mMovieCounter);
         getMovieFromURL(movieID);
     }
@@ -284,13 +286,15 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStop() {
+    protected void onPause() {
         EventBus.getDefault().unregister(this);
         if(mGame.getStatus().equals(Constants.STATUS_EXISTING)){
             mGame.setUserScore("0");
             FBDataService.getInstance().updateGame(mGame);
+            Toast.makeText(GameActivity.this, "Closed out of Game. You can replay it though...", Toast.LENGTH_LONG).show();
+            finish();
         }
-        super.onStop();
+        super.onPause();
     }
 
     @Override

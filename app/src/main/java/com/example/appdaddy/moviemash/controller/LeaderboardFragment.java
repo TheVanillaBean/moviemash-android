@@ -58,7 +58,7 @@ public class LeaderboardFragment extends Fragment {
         mRecyclerView.showIfEmpty(mEmptyList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mAdapter = new FirebaseIndexRecyclerAdapter<User, LeaderboardFragment.UserHolder>(User.class, R.layout.leaderboard_row, LeaderboardFragment.UserHolder.class,
+        mAdapter = new FirebaseIndexRecyclerAdapter<User, LeaderboardFragment.UserHolder>(User.class, R.layout.row_leaderboard, LeaderboardFragment.UserHolder.class,
                 FBDataService.getInstance().allTimeRankRef(), FBDataService.getInstance().usersRef()) {
             @Override
             public void populateViewHolder(final LeaderboardFragment.UserHolder viewHolder, final User user, int position) {
@@ -82,7 +82,6 @@ public class LeaderboardFragment extends Fragment {
 
     public static class UserHolder extends CustomRecyclerView.ViewHolder {
         private final TextView mNameField;
-        private final TextView mStatusField;
         private final TextView mRankField;
         private final ImageView mProfilePicImg;
         private View mView;
@@ -97,10 +96,8 @@ public class LeaderboardFragment extends Fragment {
             generator = ColorGenerator.MATERIAL;
             mNameField = (TextView) itemView.findViewById(R.id.name_label);
             mRankField = (TextView) itemView.findViewById(R.id.all_time_rank_label);
-            mStatusField = (TextView) itemView.findViewById(R.id.status_label);
             mProfilePicImg = (ImageView) itemView.findViewById(R.id.profile_image);
             mView = itemView;
-
         }
 
         View getView(){

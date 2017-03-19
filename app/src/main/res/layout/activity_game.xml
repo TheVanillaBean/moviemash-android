@@ -75,7 +75,7 @@
 
             <TextView
                 android:id="@+id/movie_desc"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:text="--"
@@ -85,8 +85,38 @@
                 android:gravity="start"
                 android:textColor="@android:color/black"/>
 
-        </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/movie_desc"
+                android:layout_alignParentStart="true"
+                android:layout_margin="4dp">
 
+                <TextView
+                    android:id="@+id/movie_count_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="12sp"
+                    android:text="--"
+                    android:gravity="start"
+                    android:textColor="@android:color/black"/>
+
+                <TextView
+                    android:id="@+id/score_label"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="12sp"
+                    android:text="--"
+                    android:gravity="end"
+                    android:textColor="@android:color/black"/>
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/rating_container"

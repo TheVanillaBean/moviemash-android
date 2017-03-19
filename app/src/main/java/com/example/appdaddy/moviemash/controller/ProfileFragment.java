@@ -1,6 +1,7 @@
 package com.example.appdaddy.moviemash.controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -29,6 +30,7 @@ import com.example.appdaddy.moviemash.widgets.CustomRecyclerView;
 import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 
@@ -45,6 +47,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 
@@ -101,6 +104,15 @@ public class ProfileFragment extends Fragment {
         }else{
             Dialog.showDialog(getActivity(), "Authentication Error", event.getError(), "Okay");
         }
+    }
+
+    @OnClick(R.id.logout_btn)
+    public void onLogoutBtnPressed() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     @Override

@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initBackgroundImage() {
         Glide.with(this)
-                .load(R.drawable.logo)
+                .load(R.drawable.app_logo)
                 .fitCenter()
                 .into(background);
     }

@@ -8,6 +8,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import org.greenrobot.eventbus.EventBus;
@@ -34,6 +35,7 @@ public class Game {
     List<String> movieList = new ArrayList<>();
     String score;
     String status;
+    HashMap<String, Object> timestamp;
 
     public String getStatus() {
         return (status == null) ? "" : status;
@@ -83,6 +85,16 @@ public class Game {
         this.movieList = movieList;
     }
 
+    public HashMap<String, Object> getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp() {
+        HashMap<String, Object> timestampHash = new HashMap<>();
+        timestampHash.put(Constants.TIMESTAMP, ServerValue.TIMESTAMP);
+        this.timestamp = timestampHash;
+    }
+
     public Game() {
     }
 
@@ -92,7 +104,9 @@ public class Game {
         this.userID = userID;
         this.userName = userName;
         this.status = status;
-    }
+        HashMap<String, Object> timestampHash = new HashMap<>();
+        timestampHash.put(Constants.TIMESTAMP, ServerValue.TIMESTAMP);
+        this.timestamp = timestampHash;    }
 
     @Exclude
     public Map<String, Object> toMap() {
@@ -104,6 +118,7 @@ public class Game {
         result.put(Constants.SCORE, getUserScore());
         result.put(Constants.MOVIE_LIST, getMovieList());
         result.put(Constants.STATUS, getStatus());
+        result.put(Constants.TIMESTAMP, getTimestamp());
         return result;
     }
 

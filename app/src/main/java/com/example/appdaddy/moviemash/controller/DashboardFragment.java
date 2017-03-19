@@ -31,11 +31,17 @@ import com.example.appdaddy.moviemash.util.Dialog;
 import com.example.appdaddy.moviemash.widgets.CustomRecyclerView;
 import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.ServerValue;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.parceler.Parcels;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +56,7 @@ public class DashboardFragment extends Fragment {
 
     private User mCurrentUser;
     private FirebaseRecyclerAdapter mAdapter;
+    private LinearLayoutManager mLayoutManager;
 
     public DashboardFragment() {
     }
@@ -130,7 +137,7 @@ public class DashboardFragment extends Fragment {
                         String key = FBDataService.getInstance().gamesRef().push().getKey();
                         Game game = new Game(key, mCurrentUser.getUUID(), mCurrentUser.getFullName(), Constants.STATUS_NEW);
                         FBDataService.getInstance().gamesRef().child(key).setValue(game);
-                        FBDataService.getInstance().userGamesRef().child(mCurrentUser.getUUID()).child(key).setValue(true);
+                        FBDataService.getInstance().userGamesRef().child(mCurrentUser.getUUID()).child(key).setValue(ServerValue.TIMESTAMP);
                         Toast.makeText(getActivity(), "New Game!", Toast.LENGTH_LONG).show();
                         showGameActivity(game);
                     }
@@ -158,16 +165,25 @@ public class DashboardFragment extends Fragment {
     private void setupRecyclerView(){
         mRecyclerView.showIfEmpty(mEmptyList);
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         mAdapter = new FirebaseIndexRecyclerAdapter<Game, DashboardFragment.GameHolder>(Game.class, R.layout.row_dashboard, DashboardFragment.GameHolder.class,
-                FBDataService.getInstance().userGamesRef().child(mCurrentUser.getUUID()), FBDataService.getInstance().gamesRef()) {
+                FBDataService.getInstance().userGamesRef().child(mCurrentUser.getUUID()).orderByValue().limitToLast(10), FBDataService.getInstance().gamesRef()) {
             @Override
             public void populateViewHolder(final DashboardFragment.GameHolder gameHolder, final Game game, int position) {
-                gameHolder.setName(game);
+                gameHolder.setDate((Long) game.getTimestamp().get(Constants.TIMESTAMP));
                 gameHolder.setStatus(game.getStatus(), game.getUserScore());
-                gameHolder.updateProfileLetter(game.getUserName());
-
+                gameHolder.updateProfileLetter(game.getUserScore());
+                gameHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        game.setTimestamp();
+                        showGameActivity(game);
+                    }
+                });
             };
         };
 
@@ -176,7 +192,7 @@ public class DashboardFragment extends Fragment {
 
 
     public static class GameHolder extends CustomRecyclerView.ViewHolder {
-        private final TextView mNameField;
+        private final TextView mDateField;
         private final TextView mStatusField;
         private final ImageView mProfilePicImg;
         private View mView;
@@ -189,7 +205,7 @@ public class DashboardFragment extends Fragment {
             itemView.setClickable(true);
             itemView.setClickable(true);
             generator = ColorGenerator.MATERIAL;
-            mNameField = (TextView) itemView.findViewById(R.id.name_label);
+            mDateField = (TextView) itemView.findViewById(R.id.date_label);
             mStatusField = (TextView) itemView.findViewById(R.id.status_label);
             mProfilePicImg = (ImageView) itemView.findViewById(R.id.profile_image);
             mView = itemView;
@@ -203,12 +219,15 @@ public class DashboardFragment extends Fragment {
         void updateProfileLetter(String name){
             randomColor = generator.getRandomColor();
             mTextDrawable = TextDrawable.builder()
-                    .buildRound(name.substring(0,2), randomColor);
+                    .buildRound(name, randomColor);
             mProfilePicImg.setImageDrawable(mTextDrawable);
         }
 
-        void setName(Game game) {
-           mNameField.setText(game.getUserName());
+        void setDate(Long duration) {
+            Date date = new Date(duration);
+            DateFormat formatter = new SimpleDateFormat("MMM dd", Locale.US);
+            String dateFormatted = formatter.format(date);
+            mDateField.setText(dateFormatted);
         }
 
         void setStatus(String status, String userScore){
