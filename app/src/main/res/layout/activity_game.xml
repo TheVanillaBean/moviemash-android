@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:autofit="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fillViewport="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
+
+            <RelativeLayout
+                android:id="@+id/movie_info_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_border_grey"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="16dp"
+                android:layout_below="@id/toolbar"
+                android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/movie_image"
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/profile_blue"
+                android:background="@drawable/btn_border_orange"
+                android:layout_margin="8dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"/>
+
+            <TextView
+                android:id="@+id/movie_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:text="--"
+                android:layout_toEndOf="@id/movie_image"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="8dp"
+                android:gravity="start"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp"/>
+
+            <TextView
+                android:id="@+id/movie_year"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="--"
+                android:layout_below="@id/movie_title"
+                android:layout_toEndOf="@id/movie_image"
+                android:gravity="start"
+                android:textColor="@android:color/black"
+                android:layout_marginBottom="4dp"/>
+
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/movie_actors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="--"
+                android:layout_below="@id/movie_year"
+                android:layout_toEndOf="@id/movie_image"
+                android:gravity="start"
+                android:textColor="@android:color/black"
+                autofit:minTextSize="12sp"
+                android:ellipsize="end"/>
+
+            <TextView
+                android:id="@+id/movie_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="--"
+                android:layout_below="@id/movie_image"
+                android:layout_alignParentStart="true"
+                android:layout_margin="4dp"
+                android:gravity="start"
+                android:textColor="@android:color/black"/>
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/rating_container"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            android:layout_below="@id/movie_info_container"
+            android:weightSum="10">
+
+            <EditText
+                android:id="@+id/rating_field"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:hint="Guess Critic Rating..."
+                android:textSize="16sp"
+                android:background="@drawable/btn_border_orange"
+                android:textColorHint="@android:color/black"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                android:inputType="number"
+                android:imeOptions="actionDone"
+                android:layout_weight="9"
+                android:padding="4dp"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:textSize="20dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="%"
+                android:layout_weight="1"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</ScrollView>

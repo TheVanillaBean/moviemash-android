@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.appdaddy.moviemash.DataService.AuthService;
@@ -14,6 +15,7 @@ import com.example.appdaddy.moviemash.POJO.UserCastEvent;
 import com.example.appdaddy.moviemash.R;
 import com.example.appdaddy.moviemash.util.Constants;
 import com.example.appdaddy.moviemash.util.Dialog;
+import com.example.appdaddy.moviemash.util.L;
 import com.example.appdaddy.moviemash.util.Util;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,12 +38,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
         initBackgroundImage();
+
         if (Util.isGooglePlayServicesAvailable(MainActivity.this)){
             validateUserToken();
         }
-
     }
 
     private void initBackgroundImage() {
@@ -52,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void validateUserToken() {
-        Log.d("TAG", "AuthListener");
-
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -61,8 +60,9 @@ public class MainActivity extends AppCompatActivity {
                 if (user != null) {
                     User.castUser(user.getUid());
                 } else {
-                    Log.d("TAG", "Login");
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 }
 
@@ -70,11 +70,15 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    private void navigateToTabBarActivity(User user){
+    private void navigateToPlayerActivity(){
+
+        EventBus.getDefault().unregister(this);
+        if (mAuthListener != null) {
+            AuthService.getInstance().getAuthInstance().removeAuthStateListener(mAuthListener);
+        }
 
         Intent intent = null;
         intent = new Intent(MainActivity.this, PlayerMainActivity.class);
-        intent.putExtra(Constants.EXTRA_USER_ID, user.getUUID());
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -84,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserCastCallBack(UserCastEvent event) {
         if (event.getError() == null){
-            this.navigateToTabBarActivity(event.getUser());
+            this.navigateToPlayerActivity();
         }else{
             Dialog.showDialog(MainActivity.this, "Authentication Error", event.getError(), "Okay");
         }
@@ -100,10 +104,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         EventBus.getDefault().unregister(this);
-        super.onStop();
         if (mAuthListener != null) {
             AuthService.getInstance().getAuthInstance().removeAuthStateListener(mAuthListener);
         }
+        super.onStop();
     }
 
 }

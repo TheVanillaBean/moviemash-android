@@ -12,6 +12,14 @@ public class Constants {
     public static final String EXTRA_PHONE_NUMBER = "phoneNumberExtra";
     public static final String EXTRA_USER_ID = "userIDExtra";
     public static final String EXTRA_USER_PARCEL = "userParcel";
+    public static final String EXTRA_GAME_PARCEL = "gameParcel";
+
+    //Game Status
+    public static final String STATUS_NEW = "noMovies";
+    public static final String STATUS_EXISTING = "populated";
+    public static final String STATUS_FINISHED = "finished";
+
+    public static final int TOTAL_MOVIE_IDS = 60;
 
     //Model - User
     public static final String UUID = "uuid";
@@ -24,12 +32,21 @@ public class Constants {
     public static final String DEVICE_TOKEN = "deviceToken";
     public static final String ALL_TIME_RANK = "userAllTimeRank";
 
+    //Model - Game
+    public static final String MOVIE_LIST = "movieList";
+    public static final String STATUS = "status";
+    public static final String USER_ID = "userID";
+    public static final String USER_NAME = "userName";
+    public static final String SCORE = "userScore";
+
     //CHILD NODES
     public static final String FIR_CHILD_USERS = "user";
     public static final String FIR_CHILD_GAMES = "games";
     public static final String FIR_CHILD_USER_GAMES = "user-games";
     public static final String FIR_CHILD_MOVIES = "movies";
     public static final String FIR_CHILD_ALL_TIME_LEADERBOARD = "allTimeRank";
+    public static final String FIR_CHILD_MOVIE_RATINGS= "movieRatings";
+
 
     //STORAGE NODES
     public static final String FIR_STORAGE_CHILD_USER_PROFILE_PICS = "Profile-Pictures";

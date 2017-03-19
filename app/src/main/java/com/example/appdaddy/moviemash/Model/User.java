@@ -35,7 +35,7 @@ public class User {
     String deviceToken;
 
     public String getUserAllTimeRank() {
-        return (userAllTimeRank == null) ? "" : userAllTimeRank;
+        return (userAllTimeRank == null) ? "0" : userAllTimeRank;
     }
 
     public void setUserAllTimeRank(String userAllTimeRank) {

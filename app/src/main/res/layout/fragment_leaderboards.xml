@@ -1,9 +1,9 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.example.appdaddy.bizmi.widgets.CustomRecyclerView
+    <com.example.appdaddy.moviemash.widgets.CustomRecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -16,6 +16,6 @@
         android:layout_margin="32dp"
         android:textColor="@color/colorGreyDark"
         android:gravity="center"
-        android:text="No Profile"/>
+        android:text="No Scores"/>
 
-</FrameLayout>
+</RelativeLayout>

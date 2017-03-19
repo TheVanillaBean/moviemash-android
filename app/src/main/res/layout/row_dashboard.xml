@@ -3,23 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     xmlns:autofit="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_selector_layout"
     android:orientation="horizontal"
     android:background="@drawable/bg_row">
 
-    <FrameLayout
-        android:id="@+id/profile_image_bg"
+    <ImageView
+        android:id="@+id/profile_image"
         android:layout_width="96dp"
         android:layout_height="96dp"
-        android:background="@drawable/user_logo_border"
-        android:layout_margin="2dp" >
-
-        <ImageView
-            android:id="@+id/profile_image"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:padding="4dp"/>
-
-    </FrameLayout>
+        android:padding="4dp"
+        android:layout_margin="2dp"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -29,13 +22,13 @@
         android:layout_weight="4">
 
         <me.grantland.widget.AutofitTextView
-            android:id="@+id/opponent_name_label"
+            android:id="@+id/name_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24sp"
             android:layout_marginBottom="2dp"
-            android:text="Peter Gregory"
-            android:textColor="@color/colorAccent"
+            android:text=""
+            android:textColor="@color/colorPrimaryDark"
             autofit:minTextSize="20sp"
             android:singleLine="true"/>
 
@@ -44,24 +37,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="Waiting For You"
+            android:text=""
             android:textColor="@android:color/black"/>
 
     </LinearLayout>
-
-    <me.grantland.widget.AutofitTextView
-        android:id="@+id/date_ceated_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_marginEnd="8dp"
-        android:text="10/21/16"
-        android:textColor="@android:color/black"
-        android:layout_gravity="top"
-        autofit:minTextSize="10sp"
-        android:singleLine="true"
-        android:gravity="top"
-        android:layout_marginTop="4dp"/>
 
 
 </LinearLayout>

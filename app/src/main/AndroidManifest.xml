@@ -43,6 +43,10 @@
             android:name=".controller.PlayerMainActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".controller.GameActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

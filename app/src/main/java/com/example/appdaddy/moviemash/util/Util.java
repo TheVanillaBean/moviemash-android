@@ -59,4 +59,8 @@ public class Util {
         }
     }
 
+    public static String getCorrectURl(String movieID){
+        return "http://www.omdbapi.com/?i=" + movieID;
+    }
+
 }

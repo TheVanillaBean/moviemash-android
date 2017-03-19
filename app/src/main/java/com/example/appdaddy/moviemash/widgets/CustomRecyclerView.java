@@ -55,11 +55,9 @@ public class CustomRecyclerView extends RecyclerView{
     };
 
     private void toggleViews() {
-        Log.d("TAG", "toggle called");
 
         if (getAdapter() != null && !mEmptyViews.isEmpty() ) {
             if (getAdapter().getItemCount() == 0) {
-                Log.d("TAG", "toggle called1");
 
                 //show all the empty views
                 RecyclerUtil.showViews(mEmptyViews);
@@ -68,8 +66,6 @@ public class CustomRecyclerView extends RecyclerView{
 
                 //hide all the views which are meant to be hidden
             } else {
-                Log.d("TAG", "toggle called2");
-
                 //hide all the empty views
 
                 //show the RecyclerView

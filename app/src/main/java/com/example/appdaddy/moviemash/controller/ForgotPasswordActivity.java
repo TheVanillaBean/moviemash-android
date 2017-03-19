@@ -52,10 +52,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     public void onSendBtnPressed() {
 
         email = mEmailInput.getText().toString();
-        mSubmitbtn.setEnabled(false);
-        progressDialog.show();
-        AuthService.getInstance().resetPassword(email);
-
+        if(email.length() > 5){
+            mSubmitbtn.setEnabled(false);
+            progressDialog.show();
+            AuthService.getInstance().resetPassword(email);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

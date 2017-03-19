@@ -15,15 +15,29 @@
         android:text="Start New Game"
         android:layout_marginEnd="48dp"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="32dp"/>
 
+    <TextView
+        android:id="@+id/history_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/new_game_btn"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="8dp"
+        android:text="Your Game History:"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"/>
 
     <com.example.appdaddy.moviemash.widgets.CustomRecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/new_game_btn"
-        android:layout_margin="16dp"/>
+        android:layout_below="@id/history_label"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="56dp"/>
 
 
     <TextView
@@ -33,7 +47,7 @@
         android:layout_margin="32dp"
         android:textColor="@color/colorGreyDark"
         android:gravity="center"
-        android:text="No Profile"
+        android:text="No Games In Progress. Start a New Game!"
         android:layout_below="@id/new_game_btn"/>
 
 

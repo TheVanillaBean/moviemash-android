@@ -3,11 +3,16 @@ package com.example.appdaddy.moviemash.DataService;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.example.appdaddy.moviemash.Model.Game;
 import com.example.appdaddy.moviemash.Model.User;
+import com.example.appdaddy.moviemash.POJO.GameUpdateEvent;
+import com.example.appdaddy.moviemash.POJO.MovieIDSRetrievedEvent;
+import com.example.appdaddy.moviemash.POJO.RatingReceivedEvent;
 import com.example.appdaddy.moviemash.POJO.UploadFileEvent;
 import com.example.appdaddy.moviemash.POJO.UploadProgressEvent;
 import com.example.appdaddy.moviemash.POJO.UserUpdateEvent;
 import com.example.appdaddy.moviemash.util.Constants;
+import com.example.appdaddy.moviemash.util.L;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +37,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,6 +63,26 @@ public class FBDataService {
 
     public DatabaseReference usersRef() {
         return mDatabase.getReference(Constants.FIR_CHILD_USERS);
+    }
+
+    public DatabaseReference gamesRef() {
+        return mDatabase.getReference(Constants.FIR_CHILD_GAMES);
+    }
+
+    public DatabaseReference userGamesRef() {
+        return mDatabase.getReference(Constants.FIR_CHILD_USER_GAMES);
+    }
+
+    public DatabaseReference moviesRef() {
+        return mDatabase.getReference(Constants.FIR_CHILD_MOVIES);
+    }
+
+    public DatabaseReference allTimeRankRef() {
+        return mDatabase.getReference(Constants.FIR_CHILD_ALL_TIME_LEADERBOARD);
+    }
+
+    public DatabaseReference movieRatingsRef() {
+        return mDatabase.getReference(Constants.FIR_CHILD_MOVIE_RATINGS);
     }
 
     //-----------------End Database References------------------//
@@ -102,37 +128,70 @@ public class FBDataService {
         });
     }
 
-    public void uploadFile(StorageReference filePath, final File file, StorageMetadata metadata){
-
-        Uri fileURI = Uri.fromFile(file);
-
-        UploadTask uploadTask = filePath.putFile(fileURI, metadata);
-
-        uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+    public void updateGame(final Game game){
+        Map<String, Object> properties = game.toMap();
+        gamesRef().child(game.getUuid()).updateChildren(properties, new DatabaseReference.CompletionListener() {
             @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                EventBus.getDefault().post(new UploadProgressEvent(progress));
-            }
-        }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
-                EventBus.getDefault().post(new UploadFileEvent("Image Upload Paused. Please Check Network State" , null, null));
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                EventBus.getDefault().post(new UploadFileEvent("Failed to Upload Image" + exception.getMessage(), null, null));
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                EventBus.getDefault().post(new UploadFileEvent(null, taskSnapshot, file));
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError == null){
+                    EventBus.getDefault().post(new GameUpdateEvent(game, null));
+                }else{
+                    EventBus.getDefault().post(new GameUpdateEvent(null, databaseError.getMessage()));
+                }
             }
         });
-
     }
 
+    public void updateAllTimeRank(String ID, String rank){
+        allTimeRankRef().child(ID).setValue(rank);
+    }
+
+    public void retrieveMovieIDS(int end){
+        int start = end - 10;
+        int temp = 0;
+        if(start <= 0){
+            temp = end;
+            end = end + 10;
+            start = temp;
+        }
+        moviesRef().startAt(start).endAt(end).orderByValue().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String movieID;
+                List<String> movies = new ArrayList<>();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    movieID = postSnapshot.getKey();
+                    movies.add(movieID);
+                }
+                EventBus.getDefault().post(new MovieIDSRetrievedEvent(movies, null));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                EventBus.getDefault().post(new MovieIDSRetrievedEvent(null, databaseError.getMessage()));
+            }
+        });
+    }
+
+    public void retrieveMovieRating(String movieID){
+        movieRatingsRef().child(movieID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.getValue() != null){
+                    EventBus.getDefault().post(new RatingReceivedEvent( Integer.valueOf(dataSnapshot.getValue().toString()), null));
+                }else{
+                    EventBus.getDefault().post(new RatingReceivedEvent( 1 , null));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                L.m("hello");
+                EventBus.getDefault().post(new RatingReceivedEvent(-1, databaseError.getMessage()));
+            }
+        });
+    }
 
 
     public FBDataService(){

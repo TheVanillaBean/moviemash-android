@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -132,6 +133,9 @@ public class LoginActivity extends AppCompatActivity {
             if (Util.isGooglePlayServicesAvailable(LoginActivity.this)){
                 progressDialog.show();
                 AuthService.getInstance().login(email, password);
+            }else{
+                Toast.makeText(this, "Google Play Unavailable..", Toast.LENGTH_LONG).show();
+                loginBtn.setEnabled(true);
             }
 
         }else{

@@ -60,7 +60,6 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog = Dialog.showProgressIndeterminateDialog(SignUpActivity.this, "Loading...", "Signing up...", false);
 
         mPhoneInput.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-        mPhoneInput.setText(getDevicePhoneNumberAutomatically());
 
     }
 
@@ -114,16 +113,11 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-//    private void navigateToVerificationActivity(){
-//        Intent intent  = new Intent(SignUpActivity.this, PhoneVerificationActivity.class);
-//        intent.putExtra(Constants.EXTRA_PHONE_NUMBER, mUser.getPhoneNumber());
-//        intent.putExtra(Constants.EXTRA_USER_ID, mUser.getUUID());
-//        startActivity(intent);
-//    }
-
     private void navigateToPlayerActivity(){
         Intent intent  = new Intent(SignUpActivity.this, PlayerMainActivity.class);
         intent.putExtra(Constants.EXTRA_USER_ID, mUser.getUUID());
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
     private void signUpUser(){
@@ -149,11 +143,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         return password.matches(confirmPassword);
 
-    }
-
-    private String getDevicePhoneNumberAutomatically() {
-        TelephonyManager tMgr = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
-        return tMgr.getLine1Number() ;
     }
 
     @Override
